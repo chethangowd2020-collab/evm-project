@@ -8,7 +8,11 @@ import tempfile
 from email.message import EmailMessage
 import string
 
-app = Flask(__name__)
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+
+app = Flask(__name__, template_folder=TEMPLATES_DIR, static_folder=STATIC_DIR)
 app.secret_key = os.getenv('SECRET_KEY', 'evm_secret_key_2024')
 
 # Email settings (set as environment variables)
@@ -17,9 +21,6 @@ SMTP_PORT = int(os.getenv('SMTP_PORT', '587'))
 SMTP_USERNAME = os.getenv('SMTP_USERNAME')
 SMTP_PASSWORD = os.getenv('SMTP_PASSWORD')
 EMAIL_FROM = os.getenv('EMAIL_FROM')
-
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-
 
 def resolve_db_path():
     configured_path = os.getenv('DATABASE_PATH')
